@@ -1,0 +1,36 @@
+(defun static-hazard (a b c y)
+  (let ((s0 (make-xsignal))
+	(s1 (make-xsignal))
+	(s2 (make-xsignal)))
+
+    (and-gate a s0 s1)
+    (inverter-gate b s0)
+    (and-gate b c s2)
+    (or-gate s1 s2 y)))
+
+(defun hazard-free (a b c y)
+  (let ((s0 (make-xsignal))
+	(s1 (make-xsignal))
+	(s2 (make-xsignal))
+	(s3 (make-xsignal))
+	(s4 (make-xsignal)))
+
+    (and-gate a s0 s1)
+    (inverter-gate b s0)
+    (and-gate b c s2)
+    (or-gate s1 s2 s4)
+
+    (and-gate a c s3)
+    (or-gate s4 s3 y)))
+
+(defun hazard-free-or3 (a b c y)
+  (let ((s0 (make-xsignal))
+	(s1 (make-xsignal))
+	(s2 (make-xsignal))
+	(s3 (make-xsignal)))
+
+    (and-gate a s0 s1)
+    (inverter-gate b s0)
+    (and-gate b c s2)
+    (and-gate a c s3)
+    (or-gate s1 s2 s3 y)))
