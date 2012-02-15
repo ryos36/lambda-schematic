@@ -107,3 +107,19 @@
 
 (defun or3-gate (a-input0 a-input1 a-input2 a-output)
   (in3-out1-gate a-input0 a-input1 a-input2 a-output or-gate-delay-time logic-or3))
+
+(defvar clk-ff-delay-time 0)
+
+(defun rising-edge-p (a-clk)
+  (logic= (xsignal-value a-clk) 1))
+
+(defun clk-ff-gate (a-input a-clk a-output &key (edge-op #'rising-edge-p ))
+  (add-action a-clk
+	      (let ((output a-output))
+		(lambda (sig) 
+		  (if (funcall edge-op a-clk)
+		    (let ((new-value (xsignal-value a-input)))
+		      (after-delay 
+			clk-ff-delay-time
+			(lambda ()
+			  (set-xsignal output new-value)))))))))

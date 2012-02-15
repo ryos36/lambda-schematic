@@ -1,3 +1,9 @@
+; (current-time <segments>)
+; segments <= (segment .... )
+; segment <= (time queue) 
+; queue <= (tlist-add-right q action))
+; 
+
 (defvar debug-flag nil)
 (defvar *no-delay-mode* nil)
 (defvar *direct-call-after-daly* nil)
