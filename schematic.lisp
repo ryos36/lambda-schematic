@@ -113,6 +113,9 @@
 (defun rising-edge-p (a-clk)
   (logic= (xsignal-value a-clk) 1))
 
+(defparameter *grand* (make-xsignal :value 0))
+(defparameter *vcc* (make-xsignal :value 1))
+
 (defun clk-ff-gate (a-input a-clk a-output &key (edge-op #'rising-edge-p ))
   (add-action a-clk
 	      (let ((output a-output))
@@ -123,3 +126,24 @@
 			clk-ff-delay-time
 			(lambda ()
 			  (set-xsignal output new-value)))))))))
+
+#|
+(defun clk-ff-gate-rst (a-input a-clk a-output a-rst &key (edge-op #'rising-edge-p ))
+  (add-action a-clk
+	      (let ((output a-output))
+		(lambda (sig) 
+		  (if (funcall edge-op a-clk)
+		    (let ((new-value (xsignal-value a-input)))
+		      (after-delay 
+			clk-ff-delay-time
+			(lambda ()
+			  (set-xsignal output new-value))))))))
+  (add-action a-rst
+	(let ((output a-output))
+		(lambda (sig) 
+		  (if (funcall edge-op a-clk)
+
+
+
+)
+|#

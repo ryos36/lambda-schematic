@@ -6,7 +6,9 @@
 ()
 
 (defun clk-ff-gate-rst (a-input a-clk a-output a-rst a-rst-value &key (edge-op #'rising-edge-p ))
-  (let (reg-value ((output a-output)))
+  (let (reg-value (rst-value a-rst-value) (output a-output))
+    (
+
     (add-action a-clk
 		(lambda (sig) 
 		  (when (funcall edge-op a-clk)
@@ -14,15 +16,15 @@
 		    (after-delay 
 		      clk-ff-delay-time
 		      (lambda ()
-			(set-xsignal output new-value))))))
+			(set-xsignal output reg-value))))))
     (add-action a-rst
 		(lambda (sig) 
 		  (when (logic= (xsignal-value a-rst) 1)
-		    (setf reg-value (xsignal-value a-rst-value))
+		    (setf reg-value (xsignal-value rst-value))
 		    (after-delay 
 		      clk-ff-delay-time
 		      (lambda ()
-			(set-xsignal output new-value))))))))
+			(set-xsignal output reg-value))))))))
 
 (defun selector (a-input0 a-input1 a-sel a-output)
   (let ((t0 (make-xsignal))
