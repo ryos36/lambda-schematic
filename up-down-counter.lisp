@@ -3,6 +3,7 @@
 (load "logic-op.lisp")
 (load "schematic.lisp")
 (load "addr.lisp")
+()
 
 (defun clk-ff-gate-rst (a-input a-clk a-output a-rst a-rst-value &key (edge-op #'rising-edge-p ))
   (let (reg-value ((output a-output)))
@@ -49,10 +50,10 @@
 (setf i2 (make-xsignal))
 (setf i3 (make-xsignal))
 
-(clk-ff-delay-time i0 clk o0 rst const-0)
-(clk-ff-delay-time i1 clk o1 rst const-0)
-(clk-ff-delay-time i2 clk o2 rst const-0)
-(clk-ff-delay-time i3 clk o3 rst const-0)
+(clk-ff-gate-rst i0 clk o0 rst const-0)
+(clk-ff-gate-rst i1 clk o1 rst const-0)
+(clk-ff-gate-rst i2 clk o2 rst const-0)
+(clk-ff-gate-rst i3 clk o3 rst const-0)
 
 (setf t1 (make-xsignal))
 (inverter-gate o1 t1)
