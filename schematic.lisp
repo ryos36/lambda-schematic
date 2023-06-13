@@ -12,10 +12,10 @@
     (if (logic= sig-v set-v)
       'done
       (prog1
-	(setf (xsignal-value sig) set-v)
-	(mapc (lambda (act)
-		  (funcall act sig))
-	      (xsignal-actions sig))))))
+        (setf (xsignal-value sig) set-v)
+        (mapc (lambda (act)
+                  (funcall act sig))
+              (xsignal-actions sig))))))
 
 (defun get-xsignal (sig)
   (xsignal-value sig))
@@ -33,24 +33,24 @@
 
 (defun inverter-gate (a-input a-output)
   (add-action a-input
-	      (let ((output a-output))
-		(lambda (sig) 
-		  (let ((new-value (xsignal-value sig)))
-		    (after-delay 
-		      inverter-delay-time
-		      (lambda ()
-			(set-xsignal output (logic-not new-value)))))))))
+              (let ((output a-output))
+                (lambda (sig) 
+                  (let ((new-value (xsignal-value sig)))
+                    (after-delay 
+                      inverter-delay-time
+                      (lambda ()
+                        (set-xsignal output (logic-not new-value)))))))))
 
 (defmacro! in2-out1-gate (a-input0 a-input1 a-output delay-time logic-func)
   `(let ((g!input0 ,a-input0)
-	 (g!input1 ,a-input1)
-	 (g!output ,a-output))
+         (g!input1 ,a-input1)
+         (g!output ,a-output))
      (flet ((gate-inner-func (g!sig)
-			     (let ((g!v0 (get-xsignal g!input0))
-				   (g!v1 (get-xsignal g!input1)))
-			       (after-delay ,delay-time
-					    (lambda ()
-					      (set-xsignal g!output (,logic-func g!v0 g!v1)))))))
+                             (let ((g!v0 (get-xsignal g!input0))
+                                   (g!v1 (get-xsignal g!input1)))
+                               (after-delay ,delay-time
+                                            (lambda ()
+                                              (set-xsignal g!output (,logic-func g!v0 g!v1)))))))
        (add-action g!input0 #'gate-inner-func)
        (add-action g!input1 #'gate-inner-func))))
 
@@ -75,23 +75,23 @@
      (add-action 
        i-sig 
        (lambda (sig)
-	 (format t "~a: ~a ==> ~a ~%" (get-current-time the-agenda) my-name 
-		 (get-xsignal sig))))))
+         (format t "~a: ~a ==> ~a ~%" (get-current-time the-agenda) my-name 
+                 (get-xsignal sig))))))
 
 ;
 
 (defmacro! in3-out1-gate (a-input0 a-input1 a-input2 a-output delay-time logic-func)
   `(let ((g!input0 ,a-input0)
-	 (g!input1 ,a-input1)
-	 (g!input2 ,a-input2)
-	 (g!output ,a-output))
+         (g!input1 ,a-input1)
+         (g!input2 ,a-input2)
+         (g!output ,a-output))
      (flet ((gate-inner-func (g!sig)
-			     (let ((g!v0 (get-xsignal g!input0))
-				   (g!v1 (get-xsignal g!input1))
-				   (g!v2 (get-xsignal g!input2)))
-			       (after-delay ,delay-time
-					    (lambda ()
-					      (set-xsignal g!output (,logic-func g!v0 g!v1 g!v2)))))))
+                             (let ((g!v0 (get-xsignal g!input0))
+                                   (g!v1 (get-xsignal g!input1))
+                                   (g!v2 (get-xsignal g!input2)))
+                               (after-delay ,delay-time
+                                            (lambda ()
+                                              (set-xsignal g!output (,logic-func g!v0 g!v1 g!v2)))))))
        (add-action g!input0 #'gate-inner-func)
        (add-action g!input1 #'gate-inner-func)
        (add-action g!input2 #'gate-inner-func))))
@@ -118,30 +118,30 @@
 
 (defun clk-ff-gate (a-input a-clk a-output &key (edge-op #'rising-edge-p ))
   (add-action a-clk
-	      (let ((output a-output))
-		(lambda (sig) 
-		  (if (funcall edge-op a-clk)
-		    (let ((new-value (xsignal-value a-input)))
-		      (after-delay 
-			clk-ff-delay-time
-			(lambda ()
-			  (set-xsignal output new-value)))))))))
+              (let ((output a-output))
+                (lambda (sig) 
+                  (if (funcall edge-op a-clk)
+                    (let ((new-value (xsignal-value a-input)))
+                      (after-delay 
+                        clk-ff-delay-time
+                        (lambda ()
+                          (set-xsignal output new-value)))))))))
 
 #|
 (defun clk-ff-gate-rst (a-input a-clk a-output a-rst &key (edge-op #'rising-edge-p ))
   (add-action a-clk
-	      (let ((output a-output))
-		(lambda (sig) 
-		  (if (funcall edge-op a-clk)
-		    (let ((new-value (xsignal-value a-input)))
-		      (after-delay 
-			clk-ff-delay-time
-			(lambda ()
-			  (set-xsignal output new-value))))))))
+              (let ((output a-output))
+                (lambda (sig) 
+                  (if (funcall edge-op a-clk)
+                    (let ((new-value (xsignal-value a-input)))
+                      (after-delay 
+                        clk-ff-delay-time
+                        (lambda ()
+                          (set-xsignal output new-value))))))))
   (add-action a-rst
-	(let ((output a-output))
-		(lambda (sig) 
-		  (if (funcall edge-op a-clk)
+        (let ((output a-output))
+                (lambda (sig) 
+                  (if (funcall edge-op a-clk)
 
 
 

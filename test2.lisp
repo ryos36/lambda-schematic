@@ -5,13 +5,13 @@
 
 (defun test-gate (a-input a-output)
   (add-action a-input
-	      (let ((output a-output))
-		(lambda (sig) 
-		  (let ((new-value (xsignal-value sig)))
-		    (after-delay 
-			5
-			(lambda ()
-			  (set-xsignal output new-value))))))))
+              (let ((output a-output))
+                (lambda (sig) 
+                  (let ((new-value (xsignal-value sig)))
+                    (after-delay 
+                        5
+                        (lambda ()
+                          (set-xsignal output new-value))))))))
 
 #|
 (setf i (make-xsignal :value 1))

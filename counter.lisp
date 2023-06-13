@@ -7,26 +7,26 @@
 (defun clk-ff-gate-rst (a-input a-clk a-output a-rst a-rst-value &key (edge-op #'rising-edge-p ))
   (let (reg-value (output a-output))
     (add-action a-clk
-		(lambda (sig) 
-		  (when (funcall edge-op a-clk)
-		    (setf reg-value (xsignal-value a-input))
-		    (after-delay 
-		      clk-ff-delay-time
-		      (lambda ()
-			(set-xsignal output reg-value))))))
+                (lambda (sig) 
+                  (when (funcall edge-op a-clk)
+                    (setf reg-value (xsignal-value a-input))
+                    (after-delay 
+                      clk-ff-delay-time
+                      (lambda ()
+                        (set-xsignal output reg-value))))))
     (add-action a-rst
-		(lambda (sig) 
-		  (when (logic= (xsignal-value a-rst) 1)
-		    (setf reg-value (xsignal-value a-rst-value))
-		    (after-delay 
-		      clk-ff-delay-time
-		      (lambda ()
-			(set-xsignal output reg-value))))))))
+                (lambda (sig) 
+                  (when (logic= (xsignal-value a-rst) 1)
+                    (setf reg-value (xsignal-value a-rst-value))
+                    (after-delay 
+                      clk-ff-delay-time
+                      (lambda ()
+                        (set-xsignal output reg-value))))))))
 
 (defun selector (a-input0 a-input1 a-sel a-output)
   (let ((t0 (make-xsignal))
-	(t1 (make-xsignal))
-	(not-sel (make-xsignal)))
+        (t1 (make-xsignal))
+        (not-sel (make-xsignal)))
   (and-gate a-sel a-input0 t0)
   (inverter-gate a-sel not-sel)
   (and-gate not-sel a-input1 t1)

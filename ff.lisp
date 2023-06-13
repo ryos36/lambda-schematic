@@ -5,7 +5,7 @@
 
 (defun rs-clk-ff (r s clk q not-q)
   (let ((s0 (make-xsignal))
-	(s1 (make-xsignal)))
+        (s1 (make-xsignal)))
     (and-gate r clk s0)
     (and-gate clk s s1)
 
@@ -15,7 +15,7 @@
 
 (defun latch (d st q not-q)
   (let ((s0 (make-xsignal))
-	(s1 (make-xsignal)))
+        (s1 (make-xsignal)))
     (nand-gate d st s0)
     (nand-gate s0 st s1)
 

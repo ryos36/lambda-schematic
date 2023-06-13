@@ -128,7 +128,7 @@
 
 (inverter-gate a b)
 (defun test () (let ((*direct-call-after-daly* nil))
-		 (set-xsignal a 1)))
+                 (set-xsignal a 1)))
 
 (setf i0 (make-xsignal))
 (setf i1 (make-xsignal))
