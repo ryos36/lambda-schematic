@@ -32,6 +32,8 @@
 (propagate 4)
 |#
 
+
+
 (setf c (make-xsignal :value 0))
 (setf i0 (make-xsignal :value 0))
 (setf o0 (make-xsignal :value 1))
@@ -39,12 +41,43 @@
 (setf o1 (make-xsignal :value 0))
 (clk-ff-gate i0 c o0)
 (clk-ff-gate i1 c o1)
+#|
 (probe "i0" i0)
 (probe "o0" o0)
 (probe "i1" i1)
 (probe "o1" o1)
 (probe "clk" c)
+|#
 
+(add-action c
+  (lambda (sig)
+    (let ((now-value (xsignal-value sig)))
+      (after-delay
+        5
+        (lambda ()
+          (set-xsignal sig (- 1 now-value)))))))
+
+(defun vcd-probe (name i-sig)
+  (let ((my-name name))
+     (add-action
+       i-sig
+       (lambda (sig)
+         (format t "#~a~%~a~a~%" (get-current-time the-agenda) 
+                 (get-xsignal sig)
+             my-name 
+                 )))))
+
+(vcd-probe #\1 i0)
+(vcd-probe "2" o0)
+(vcd-probe "3" i1)
+(vcd-probe "4" o1)
+(vcd-probe #\; c)
+
+(propagate 17)
+(set-xsignal i0 (xsignal-value o1))
+(set-xsignal i1 (xsignal-value o0))
+(propagate 13)
+#|
 (propagate 5)
 (set-xsignal c 1)
 (propagate 5)
@@ -60,3 +93,4 @@
 (set-xsignal c 1)
 (propagate 5)
 (set-xsignal c 0)
+|#
