@@ -5,7 +5,7 @@
 ;(load "agenda.lisp")
 ;(load "logic-op.lisp")
 
-(defstruct xsignal value actions)
+(defstruct xsignal value actions type)
 
 (defun set-xsignal (sig set-v)
   (let ((sig-v (xsignal-value sig)))
@@ -21,7 +21,9 @@
   (xsignal-value sig))
 
 (defun add-action (sig act)
-  (funcall act sig)
+  (let ((_sig sig)
+        (_act act))
+    (after-delay 0 (lambda () (funcall _act _sig))))
   (setf (xsignal-actions sig) (cons act (xsignal-actions sig))))
 
 (defvar inverter-delay-time 2)

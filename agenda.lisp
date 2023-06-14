@@ -97,10 +97,10 @@
 
 (defun after-delay (delay-time proc)
   (if *direct-call-after-daly*
-    (funcall proc)
-    (progn
-      (if *no-delay-mode*
-  (setf delay-time 0))
-      (add-to-agenda delay-time
-         proc
-         the-agenda))))
+      (funcall proc)
+      (progn
+        (if *no-delay-mode*
+            (setf delay-time 0))
+        (add-to-agenda delay-time
+                       proc
+                       the-agenda))))
