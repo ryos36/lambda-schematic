@@ -1,9 +1,4 @@
-;(load "packages.lisp")
-
-;(in-package :lambda-schematic)
-;(load "lol.lisp")
-;(load "agenda.lisp")
-;(load "logic-op.lisp")
+(in-package :lambda-schematic)
 
 (defstruct xsignal value actions type)
 

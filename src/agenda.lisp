@@ -1,3 +1,4 @@
+(in-package :lambda-schematic)
 ; (current-time <segments>)
 ; segments <= (segment .... )
 ; segment <= (time queue)

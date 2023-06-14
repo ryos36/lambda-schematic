@@ -1,3 +1,5 @@
+(in-package :lambda-schematic)
+
 (defvar *vcd-version* "lambda Schematic 0.0")
 (defvar *day-names* '("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
 (defvar *vcd-chars* "abcdefghijklmnopqrstuvwxyz")

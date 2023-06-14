@@ -1,3 +1,4 @@
+(in-package :lambda-schematic)
 
 (defun logic= (v0 v1)
   (cond ((not (and (numberp v0) (numberp v1))) nil)

@@ -1,3 +1,4 @@
+#|
 (load "lol.lisp")
 (setf (symbol-function 'lel)
       (let ((count 0))
@@ -6,3 +7,6 @@
                        (if f (decf count) (incf count)))
                  (t () (incf count)))))
 
+|#
+(require "lambda-schematic")
+(setf clk (lambda-schematic:make-xsignal))
