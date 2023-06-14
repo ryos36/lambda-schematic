@@ -33,9 +33,8 @@
 (lambda-schematic:propagate 4)
 |#
 
-
-
-(setf c (lambda-schematic:make-xsignal :value 0))
+(setf c (lambda-schematic:make-clock 5))
+;(setf c (lambda-schematic:make-xsignal :value 0))
 (setf i0 (lambda-schematic:make-xsignal :value 0))
 (setf o0 (lambda-schematic:make-xsignal :value 1))
 (setf i1 (lambda-schematic:make-xsignal :value 1))
@@ -50,6 +49,7 @@
 (lambda-schematic:probe "clk" c)
 |#
 
+#|
 (lambda-schematic:add-action c
   (lambda (sig)
     (let ((now-value (lambda-schematic:xsignal-value sig)))
@@ -57,6 +57,7 @@
         5
         (lambda ()
           (lambda-schematic:set-xsignal sig (- 1 now-value)))))))
+        |#
 
 (defun vcd-probe (name i-sig)
   (let ((my-name name))

@@ -113,6 +113,16 @@
 (defparameter *grand* (make-xsignal :value 0))
 (defparameter *vcc* (make-xsignal :value 1))
 
+(defun make-clock (half_period)
+  (let ((clk (make-xsignal :value 0)))
+    (let ((_half_period half_period))
+      (add-action clk
+        (lambda (sig)
+          (let ((now-value (xsignal-value sig)))
+            (after-delay _half_period
+                         (lambda () (set-xsignal sig (- 1 now-value))))))))
+    clk))
+
 (defun clk-ff-gate (a-input a-clk a-output &key (edge-op #'rising-edge-p ))
   (add-action a-clk
               (let ((output a-output))

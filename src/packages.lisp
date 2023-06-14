@@ -19,6 +19,8 @@
     #:propagate
     #:after-delay
 
+    #:make-clock
+
     #:clk-ff-gate
   ))
 
