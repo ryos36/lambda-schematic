@@ -6,14 +6,14 @@
   (:export
 
     #:make-xsignal
-    #:xsignal-value
+    #:xsignal-value ; setf されると action をすり抜けるから提供しないほうがいい
     #:set-xsignal
-    #:get-xsignal ; 必要？ xsignal-value でよくね？
+    #:get-xsignal
 
     #:the-agenda ; 必要？ローカルに持たせたほうがいいのでは？
     #:add-action
 
-    #:prove
+    #:probe
 
     #:get-current-time 
     #:propagate
